@@ -316,10 +316,10 @@ function pmt(rate_per_period, number_of_payments, present_value, future_value, t
 
 function _if(condition, _then, _else) {
     if (condition) {
-        return _then;
+        return _then || 0; // @jk does this actually set a default value of 0?
     }
     else {
-        return _else;
+        return _else || 0;
     }
 }
 

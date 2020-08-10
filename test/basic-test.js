@@ -29,89 +29,67 @@ describe('XLSX_CALC', function() {
             }
         };
     });
-    describe('plus', function(done) {
-        it('should calc A2+C5', function() {
+    describe('plus', function() {
+        it('should calc A2+C5', async function() {
             workbook.Sheets.Sheet1.A2.v = 7;
             workbook.Sheets.Sheet1.C5.v = 3;
             workbook.Sheets.Sheet1.A1.f = 'A2+C5';
-            XLSX_CALC(workbook).then(function() {
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 10);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 10);
         });
-        it('should calc 1+2', function(done) {
+        it('should calc 1+2', async function() {
             workbook.Sheets.Sheet1.A1.f = '1+2';
-            XLSX_CALC(workbook).then(function() {
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
         });
-        it('should calc 1+2+3', function() {
+        it('should calc 1+2+3', async function() {
             workbook.Sheets.Sheet1.A1.f = '1+2+3';
-            XLSX_CALC(workbook).then(function() {
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 6);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 6);
         });
     });
     describe('minus', function() {
-        it('should update the property A1.v with result of formula A2-C4', function(done) {
+        it('should update the property A1.v with result of formula A2-C4', async function() {
             workbook.Sheets.Sheet1.A1.f = 'A2-C4';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 5);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 5);
         });
-        it('should calc A2-4', function(done) {
+        it('should calc A2-4', async function() {
             workbook.Sheets.Sheet1.A1.f = 'A2-4';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
         });
-        it('should calc 2-3', function(done) {
+        it('should calc 2-3', async function() {
             workbook.Sheets.Sheet1.A1.f = '2-3';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, -1);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, -1);
         });
-        it('should calc 2-3-4', function(done) {
+        it('should calc 2-3-4', async function() {
             workbook.Sheets.Sheet1.A1.f = '2-3-4';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, -5);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, -5);
         });
-        it('should calc -2-3-4', function(done) {
+        it('should calc -2-3-4', async function() {
             workbook.Sheets.Sheet1.A1.f = '-2-3-4';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, -9);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, -9);
         });
     });
     describe('multiply', function() {
-        it('should calc A2*C5', function(done) {
+        it('should calc A2*C5', async function() {
             workbook.Sheets.Sheet1.A1.f = 'A2*C5';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 21);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 21);
         });
-        it('should calc A2*4', function(done) {
+        it('should calc A2*4', async function() {
             workbook.Sheets.Sheet1.A1.f = 'A2*4';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 28);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 28);
         });
-        it('should calc 4*A2', function(done) {
+        it('should calc 4*A2', async function() {
             workbook.Sheets.Sheet1.A1.f = '4*A2';
-            XLSX_CALC(workbook).then(r=>{
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 28);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 28);
         });
         it('should calc 2*3', function(done) {
             workbook.Sheets.Sheet1.A1.f = '2*3';
@@ -833,13 +811,11 @@ describe('XLSX_CALC', function() {
     });
     
     describe('Sheet ref references', function(done) {
-        it('calculates the sum of Sheet2!A1+Sheet2!A2', function() {
+        it('calculates the sum of Sheet2!A1+Sheet2!A2', async function() {
             workbook.Sheets.Sheet1.A1.f = 'Sheet2!A1+Sheet2!A2';
             workbook.Sheets.Sheet2 = { A1: {v:1}, A2: {v:2}};
-            XLSX_CALC(workbook).then(x => {
-                assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
-                done();
-            }).catch(done);
+            await XLSX_CALC(workbook);
+            assert.equal(workbook.Sheets.Sheet1.A1.v, 3);
         });
         it('calculates the sum of Sheet2!A1:A2', function(done) {
             workbook.Sheets.Sheet1.A1.f = 'SUM(Sheet2!A1:A2)';

@@ -45,7 +45,7 @@ var workbook = {Sheets: {Sheet1: {}}};
 
 // use it
 workbook.Sheets.Sheet1.A5 = {f: 'BETA.DIST(2, 8, 10, true, 1, 3)'};
-XLSX_CALC(workbook);
+XLSX_CALC(workbook).then().catch();
 
 // see the result -> 0.6854705810117458
 console.log(workbook.Sheets.Sheet1.A5.v);
@@ -69,9 +69,9 @@ write some test like:
 ```js
 //(...)
 describe('HELLO', function() {
-    it('says: Hello, World!', function() {
+    it('says: Hello, World!', async function() {
         workbook.Sheets['Sheet1'].A1.f = 'HELLO("World")';
-        XLSX_CALC(workbook);
+        await XLSX_CALC(workbook);
         assert.equal(workbook.Sheets['Sheet1'].A1.v, "Hello, World!");
     });
 });

@@ -24,19 +24,19 @@ describe('XLSX with XLSX_CALC', function() {
         }
     }
 
-    it('recalc the workbook Sheet1', function() {
+    it('recalc the workbook Sheet1', async function() {
         var workbook = XLSX.readFile('test/testcase.xlsx');
         erase_values_that_contains_formula(workbook.Sheets);
         var original_sheet = XLSX.readFile('test/testcase.xlsx').Sheets.Sheet1;
-        XLSX_CALC(workbook);
+        await XLSX_CALC(workbook);
         assert_values(original_sheet, workbook.Sheets.Sheet1);
     });
     
-    it('recalc the workbook Sheet OffSet', function() {
+    it('recalc the workbook Sheet OffSet', async function() {
         var workbook = XLSX.readFile('test/testcase.xlsx');
         erase_values_that_contains_formula(workbook.Sheets);
         var original_sheet = XLSX.readFile('test/testcase.xlsx').Sheets.OffSet;
-        XLSX_CALC(workbook);
+        await XLSX_CALC(workbook);
         assert_values(original_sheet, workbook.Sheets.OffSet);
     });
 
